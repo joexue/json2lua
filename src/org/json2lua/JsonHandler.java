@@ -35,12 +35,14 @@ public class JsonHandler extends JsonBaseListener {
         lua = "";
     }
 
-	@Override public void enterJson(JsonParser.JsonContext ctx) {
+	@Override
+    public void enterJson(JsonParser.JsonContext ctx) {
         ArrayList<String> json = new ArrayList<String>();
         stack.push(json);
     }
 
-	@Override public void exitJson(JsonParser.JsonContext ctx) {
+	@Override
+    public void exitJson(JsonParser.JsonContext ctx) {
         ArrayList<String> json = stack.pop();
 
         ST st = stg.getInstanceOf("json2lua");
@@ -52,13 +54,15 @@ public class JsonHandler extends JsonBaseListener {
         lua = st.render();
     }
 
-	@Override public void enterObject(JsonParser.ObjectContext ctx) {
+	@Override
+    public void enterObject(JsonParser.ObjectContext ctx) {
         ArrayList<String> object = new ArrayList<String>();
         stack.push(object);
         ident++;
     }
 
-	@Override public void exitObject(JsonParser.ObjectContext ctx) {
+	@Override
+    public void exitObject(JsonParser.ObjectContext ctx) {
         ArrayList<String> object = stack.pop();
         ident--;
 
@@ -71,13 +75,15 @@ public class JsonHandler extends JsonBaseListener {
         stack.peek().add(st.render());
     }
 
-	@Override public void enterArray(JsonParser.ArrayContext ctx) {
+	@Override
+    public void enterArray(JsonParser.ArrayContext ctx) {
         ArrayList<String> array = new ArrayList<String>();
         stack.push(array);
         ident++;
     }
 
-	@Override public void exitArray(JsonParser.ArrayContext ctx) {
+	@Override
+    public void exitArray(JsonParser.ArrayContext ctx) {
         ArrayList<String> array = stack.pop();
         ident--;
 
@@ -90,12 +96,14 @@ public class JsonHandler extends JsonBaseListener {
         stack.peek().add(st.render());
     }
 
-	@Override public void enterPair(JsonParser.PairContext ctx) {
+	@Override
+    public void enterPair(JsonParser.PairContext ctx) {
         ArrayList<String> pair = new ArrayList<String>();
         stack.push(pair);
     }
 
-	@Override public void exitPair(JsonParser.PairContext ctx) {
+	@Override
+    public void exitPair(JsonParser.PairContext ctx) {
         ArrayList<String> pair = stack.pop();
 
         ST st = stg.getInstanceOf("pair");
@@ -107,7 +115,8 @@ public class JsonHandler extends JsonBaseListener {
         stack.peek().add(st.render());
     }
 
-	@Override public void exitValue(JsonParser.ValueContext ctx) {
+	@Override
+    public void exitValue(JsonParser.ValueContext ctx) {
         ST st = stg.getInstanceOf("value");
 
         if (ctx.STRING() != null ||
