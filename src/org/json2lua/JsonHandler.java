@@ -121,9 +121,13 @@ public class JsonHandler extends JsonBaseListener {
 
         if (ctx.STRING() != null ||
                 ctx.NUMBER() != null ||
-                ctx.BOOLEAN() != null ||
-                ctx.NULL() != null) {
+                ctx.BOOLEAN() != null) {
             st.add("val", ctx.getText());
+            stack.peek().add(st.render());
+        }
+
+        if (ctx.NULL() != null) {
+            st.add("val", "nil");
             stack.peek().add(st.render());
         }
     }
